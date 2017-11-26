@@ -1,6 +1,8 @@
 package io.sdtwo.famtree.api.dao;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -12,6 +14,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 import io.sdtwo.famtree.api.types.Member;
@@ -34,9 +37,12 @@ public class MemberRepository {
 		return member;
 	}
 
-	public MemberRepository() {
+	public MemberRepository() throws IOException {
 		members = new HashMap();
-		URL url = this.getClass().getClassLoader().getResource(DATA);
+		//spring specific 
+		ClassPathResource resource = new ClassPathResource(DATA);
+		URL url = resource.getURL();
+
 		try (Stream<String> stream = Files.lines(Paths.get(url.toURI()))) {
 			stream.map(s -> createMember(s)).forEach(m -> members.put(m.getId(), m));
 		} catch (IOException e) {
