@@ -39,19 +39,18 @@ public class MemberRepository {
 
 	public MemberRepository() throws IOException {
 		members = new HashMap();
-		//spring specific 
-		ClassPathResource resource = new ClassPathResource(DATA);
-		URL url = resource.getURL();
-
-		try (Stream<String> stream = Files.lines(Paths.get(url.toURI()))) {
-			stream.map(s -> createMember(s)).forEach(m -> members.put(m.getId(), m));
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (URISyntaxException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		Member mother = new Member("Lashelle", "Mother");
+		mother.setId(0);
+		mother.setBio("this is a bio");
+		members.put(0, mother);
+		
+		Member brother = new Member("Twan", "Brother");
+		brother.setId(1);
+		brother.setBio("this is a bio");
+		members.put(1, brother);
 	}
+		
+	
 
 	public List<Member> getMembers() {
 		return this.members.values().stream().collect(Collectors.toList());
