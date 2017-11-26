@@ -1,0 +1,29 @@
+type Member {
+	id: Int!
+	name: String!
+	relation: String!
+	bio: String
+}
+
+input MemberInput {
+	name: String
+	relation: String
+	bio: String
+}
+
+
+type Query {
+	allMembers: [Member]
+	member(id:Int!): Member
+}
+
+type Mutation {
+	createMember(name:String!, relation:String!): Member
+	updateMember(id: Int!, input: MemberInput): Member
+}
+
+
+schema {
+	query: Query
+	mutation: Mutation
+}
